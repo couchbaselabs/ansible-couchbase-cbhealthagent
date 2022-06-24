@@ -1,0 +1,14 @@
+---
+skip_list:
+  - '106'
+  - '204'
+  - '208'
+  - fqcn-builtins
+  - no-changed-when
+  - command-instead-of-module
+exclude_paths:
+  - ./.github/
+  - ./examples/
+parseable: true
+use_default_rules: true
+verbosity: 1

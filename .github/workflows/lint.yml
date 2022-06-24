@@ -1,0 +1,39 @@
+---
+name: Ansible Lint
+
+on:  # yamllint disable-line rule:truthy
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: work around permission issue
+        run: git config --global --add safe.directory /github/workspace
+
+      # checkout
+      - uses: actions/checkout@v3
+
+      # Ansible Lint
+      - name: Ansible Lint
+        uses: ansible/ansible-lint-action@main
+        with:
+          targets: "."
+          override-deps: |
+            ansible==2.13
+            ansible-lint==6.2.1
+
+      # Yaml Lint
+      - name: yaml-lint
+        id: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .
+
+      # Remark Lint
+      - name: Running Remark
+        uses: ocular-d/action-remark@0.0.10
+        with:
+          check_dir: "."

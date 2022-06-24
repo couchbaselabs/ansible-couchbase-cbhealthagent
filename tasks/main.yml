@@ -1,0 +1,38 @@
+---
+# Output any variables that start with couchbase_*
+- name: Show all cbhealthagent variables
+  debug:
+    var: vars[item]
+  with_items: "{{ lookup('varnames', 'cbhealthagent_.+').split(',') }}"
+  tags:
+    - cbhealthagent_install
+    - cbhealthagent_configure
+    - cbhealthagent_run
+
+- include: preflight.yml
+  become: true
+  tags:
+    - cbhealthagent_install
+    - cbhealthagent_configure
+    - cbhealthagent_run
+
+- include: install.yml
+  become: true
+  when: __cbhealthagent_do_install
+  tags:
+    - cbhealthagent_install
+
+- include: configure.yml
+  become: true
+  tags:
+    - cbhealthagent_configure
+
+- name: Ensure cbhealthagent is enabled on boot
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: cbhealthagent
+    enabled: true
+    state: started
+  tags:
+    - cbhealthagent_run

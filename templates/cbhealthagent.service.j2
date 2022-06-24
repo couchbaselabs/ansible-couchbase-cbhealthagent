@@ -1,0 +1,53 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=cbhealthagent
+Documentation=N/A
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+
+User={{ cbhealthagent_user | default('couchbase') }}
+Group={{ cbhealthagent_user_group | default('couchbase') }}
+WorkingDirectory={{ cbhealthagent_conf_dir }}
+EnvironmentFile=-{{ cbhealthagent_conf_dir }}/{{ cbhealthagent_env_file}}
+
+ExecStart={{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }} \
+  --http.port "$CBHEALTHAGENT_HTTP_PORT" \
+  --log.level "$CBHEALTHAGENT_LOG_LEVEL" \
+  --couchbase.install-path "$COUCHBASE_INSTALL_PATH" \
+  --couchbase.username "$COUCHBASE_USER" \
+  --couchbase.password "$COUCHBASE_PASSWORD" \
+  {% for enable in (cbhealthagent_features_enable | split(',')) %}
+  --features.enable "{{ enable }}" \
+  {% endfor %}
+  {% for disable in (cbhealthagent_features_disable | split(',')) %}
+  --features.disable "{{ disable }}" \
+  {% endfor %}
+  --health-agent.check-interval "$CBHEALTHAGENT_CHECK_INTERVAL" \
+  --log-analyzer.janitor-interval "$CBHEALTHAGENT_LOG_ANALYZER_JANITOR_INTERVAL" \
+  --log-analyzer.alert-duration "$CBHEALTHAGENT_LOG_ANALYZER_ALERT_DURATION"
+
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectHome=true
+
+SyslogIdentifier=cbhealthagent
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+{% if cbhealthagent_systemd_version | int >= 232 %}
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=yes
+{% else %}
+ProtectSystem=full
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

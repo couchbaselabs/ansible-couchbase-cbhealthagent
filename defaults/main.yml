@@ -1,0 +1,38 @@
+---
+# service variables
+cbhealthagent_version: 0.3.0
+cbhealthagent_user: couchbase
+cbhealthagent_user_group: couchbase
+cbhealthagent_install_dir: /opt/cbhealthagent/bin
+cbhealthagent_binary: cbhealthagent
+cbhealthagent_conf_dir: /etc/cbhealthagent
+cbhealthagent_env_file: service.env
+cbhealthagent_local_tmp_dir: /tmp/cbhealthagent    # path to where the binary will be downloaded to on the controller
+# full path to the local binary if already downloaded on the controller
+# this should only be set, if ansible is not downloading the binary and you have
+# manually downloaded the binary
+cbhealthagent_local_binary_path: ""
+
+# logging
+cbhealthagent_log_level: debug    # Level to log at
+
+# configuration variables
+cbhealthagent_couchbase_install_path: /opt/couchbase
+cbhealthagent_check_interval: 10m    # How often to refresh health check data.
+cbhealthagent_log_analyzer_janitor_interval: 10m    # How often to clean up stale log alerts.
+cbhealthagent_log_analyzer_alert_duration: 1h    # How long will log alerts fire before they are cleaned up, if no matching message is seen in the meantime.
+
+# features
+cbhealthagent_features_enable: "health-agent,log-analyzer"    # Features to enable. Overrides features.auto
+cbhealthagent_features_disable: "fluent-bit,prometheus-exporter"    # Features to disable. Overrides features.auto
+
+# features are explicitly enabled / disabled, it is recommended to use the roles:
+# - https://github.com/couchbaselabs/ansible-couchbase-exporter
+# - https://github.com/couchbaselabs/ansible-couchbase-fluent-bit
+
+# couchbase connection variables (should be read-only admin)
+couchbase_username: Administrator
+couchbase_password: password
+
+# ports
+cbhealthagent_http_port: 9082    # Port that exposes the agent REST API

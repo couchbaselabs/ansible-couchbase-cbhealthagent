@@ -1,0 +1,6 @@
+---
+_cbhealthagent_package_name: cbhealthagent-linux-amd64-dp2
+_cbhealthagent_download_url: https://packages.couchbase.com.s3.amazonaws.com/couchbase-observability-stack/dp2/cbhealthagent-linux-amd64-dp2
+
+_cbhealthagent_systemd_path: /etc/systemd/system
+_cbhealthagent_systemd_unit: cbhealthagent.service

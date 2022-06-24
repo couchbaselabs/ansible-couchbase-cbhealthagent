@@ -1,0 +1,24 @@
+---
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
+    dest: "/usr/bin/{{ cbhealthagent_binary }}"
+    owner: root
+    group: root
+    state: link
+
+- name: Create cbhealthagent Service
+  ansible.builtin.template:
+    src: cbhealthagent.service.j2
+    dest: "{{ _cbhealthagent_systemd_path }}/{{ _cbhealthagent_systemd_unit }}"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create cbhealthagent Environment File
+  ansible.builtin.template:
+    src: EnvironmentFile.j2
+    dest: "{{ cbhealthagent_conf_dir }}/{{ cbhealthagent_env_file }}"
+    owner: root
+    group: "{{ cbhealthagent_user_group }}"
+    mode: 0640

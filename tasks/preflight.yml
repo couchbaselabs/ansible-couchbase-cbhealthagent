@@ -1,0 +1,143 @@
+---
+- name: Fail when variables are not defined
+  ansible.builtin.fail:
+    msg: "The {{ item }} property must be set"
+  when: ( item is not defined )
+  with_items:
+    - cbhealthagent_version
+    - cbhealthagent_user
+    - cbhealthagent_user_group
+    - cbhealthagent_install_dir
+    - cbhealthagent_binary
+    - cbhealthagent_conf_dir
+    - cbhealthagent_env_file
+    - cbhealthagent_local_tmp_dir
+    - cbhealthagent_log_level
+    - cbhealthagent_couchbase_install_path
+    - cbhealthagent_check_interval
+    - cbhealthagent_log_analyzer_janitor_interval
+    - cbhealthagent_log_analyzer_alert_duration
+    - cbhealthagent_features_auto
+    - cbhealthagent_features_enable
+    - cbhealthagent_features_disable
+    - couchbase_username
+    - couchbase_password
+    - cbhealthagent_http_port
+
+- name: Fail when variables do not have a length
+  ansible.builtin.fail:
+    msg: "The {{ item }} property must be valued"
+  when: ( item | string | length == 0 )
+  with_items:
+    - cbhealthagent_version
+    - cbhealthagent_user
+    - cbhealthagent_user_group
+    - cbhealthagent_install_dir
+    - cbhealthagent_binary
+    - cbhealthagent_conf_dir
+    - cbhealthagent_env_file
+    - cbhealthagent_local_tmp_dir
+    - cbhealthagent_log_level
+    - cbhealthagent_couchbase_install_path
+    - cbhealthagent_check_interval
+    - cbhealthagent_log_analyzer_janitor_interval
+    - cbhealthagent_log_analyzer_alert_duration
+    - cbhealthagent_features_auto
+    - couchbase_username
+    - couchbase_password
+    - cbhealthagent_http_port
+
+- name: Fail when cbhealthagent_http_port is not a number
+  ansible.builtin.fail:
+    msg: "The cbhealthagent_http_port property must be an integer"
+  when: ( cbhealthagent_http_port is defined and cbhealthagent_http_port is not number )
+
+- name: Fail when the log level contains an invalid value
+  ansible.builtin.fail:
+    msg: "The cbhealthagent_log_level can only be: debug, info, warn, error"
+  when: ( cbhealthagent_log_level not in ['debug','info','warn','error'] )
+
+- name: Fail when cbhealthagent_local_binary_path is defined but the file doesn't exist
+  block:
+    - name: Check if cbhealthagent_local_binary_path exists
+      ansible.builtin.stat:
+        path: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
+      register: __cbhealthagent_local_binary_check
+      become: false
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Fail when the cbhealthagent_local_binary_path does not exist
+      ansible.builtin.fail:
+        msg: "The cbhealthagent_local_binary_path ({{ cbhealthagent_local_binary_path }}) was specified but does not exist"
+      when: __cbhealthagent_local_binary_check.stat.exists == false
+  when: cbhealthagent_local_binary_path is defined and cbhealthagent_local_binary_path | length > 0
+
+- name: Assert usage of systemd as an init system
+  ansible.builtin.assert:
+    that: ansible_service_mgr == 'systemd'
+    msg: "This role only works with systemd"
+
+- name: Get systemd version
+  ansible.builtin.command: systemctl --version
+  changed_when: false
+  check_mode: false
+  register: __systemd_version
+  tags:
+    - skip_ansible_lint
+
+- name: Set systemd version fact
+  ansible.builtin.set_fact:
+    cbhealthagent_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
+
+- name: Check if cbhealthagent is installed
+  ansible.builtin.stat:
+    path: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
+  register: __cbhealthagent_is_installed
+  check_mode: false
+
+- name: Install Checks
+  block:
+    - name: Gather currently installed cbhealthagent version
+      ansible.builtin.command:
+        cmd: |
+          {{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }} --version
+      changed_when: false
+      register: __cbhealthagent_current_version_output
+      check_mode: false
+
+    - name: Set cbhealthagent Installed Version
+      ansible.builtin.set_fact:
+        cbhealthagent_installed_version: "{{ __cbhealthagent_current_version_output.stdout.split(' ')[5] }}"
+
+    - name: cbhealthagent Installed Version
+      ansible.builtin.debug:
+        var: cbhealthagent_installed_version
+  tags:
+    - cbhealthagent_install
+  when: __cbhealthagent_is_installed.stat.exists
+
+- name: cbhealthagent Version
+  ansible.builtin.debug:
+    var: cbhealthagent_version
+  tags:
+    - cbhealthagent_install
+
+- name: cbhealthagent Download URL
+  ansible.builtin.debug:
+    msg: "{{ _cbhealthagent_download_url }}"
+  tags:
+    - cbhealthagent_install
+
+- name: Set whether or not to do the install
+  ansible.builtin.set_fact:
+    __cbhealthagent_do_install: "{{  not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<') }}"
+  tags:
+    - cbhealthagent_install
+    - cbhealthagent_configure
+
+- name: Do Install
+  ansible.builtin.debug:
+    var: __cbhealthagent_do_install
+  tags:
+    - cbhealthagent_install

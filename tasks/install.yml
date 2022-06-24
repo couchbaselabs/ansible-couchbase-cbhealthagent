@@ -1,0 +1,76 @@
+---
+- name: Add user group "{{ cbhealthagent_user_group }}"
+  ansible.builtin.group:
+    name: "{{ cbhealthagent_user }}"
+    system: true
+    state: present
+
+- name: Add user "{{ cbhealthagent_user }}"
+  ansible.builtin.user:
+    name: "{{ cbhealthagent_user }}"
+    comment: "cbhealthagent Account"
+    groups:
+      - "{{ cbhealthagent_user_group }}"
+    system: true
+    shell: "/usr/sbin/nologin"
+    createhome: false
+
+- name: Install Directory
+  block:
+    - name: Create cbhealthagent Install Directory
+      ansible.builtin.file:
+        path: "{{ cbhealthagent_install_dir }}"
+        state: directory
+        owner: root
+        group: "{{ cbhealthagent_user_group }}"
+        mode: 0770
+
+    - name: Create cbhealthagent Conf Directory
+      ansible.builtin.file:
+        path: "{{ cbhealthagent_conf_dir }}"
+        state: directory
+        owner: root
+        group: "{{ cbhealthagent_user_group }}"
+        mode: 0755
+
+- name: Download cbhealthagent Binary to controller
+  block:
+    - name: Create cbhealthagent temp Directory
+      become: false
+      ansible.builtin.file:
+        path: "{{ cbhealthagent_local_tmp_dir }}"
+        state: directory
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Download cbhealthagent binary to local folder
+      become: false
+      ansible.builtin.get_url:
+        url: "{{ _cbhealthagent_download_url }}"
+        dest: "{{ cbhealthagent_local_tmp_dir }}/{{ cbhealthagent_binary }}"
+        validate_certs: false
+      register: _download_binary
+      until: _download_binary is succeeded
+      retries: 5
+      delay: 2
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Set local path
+      ansible.builtin.set_fact:
+        __cbhealthagent_local_binary_path: "{{ cbhealthagent_local_tmp_dir }}/{{ cbhealthagent_binary }}"
+
+  when: (cbhealthagent_local_binary_path is not defined) or (cbhealthagent_local_binary_path | length == 0)
+
+- name: Set local path
+  ansible.builtin.set_fact:
+    __cbhealthagent_local_binary_path: "{{ cbhealthagent_local_tmp_dir }}/{{ cbhealthagent_binary }}"
+  when: cbhealthagent_local_binary_path is defined and cbhealthagent_local_binary_path | length > 0
+
+- name: Propagate cbhealthagent binary
+  ansible.builtin.copy:
+    src: "__cbhealthagent_local_binary_path"
+    dest: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
+    mode: 0755
+    owner: root
+    group: "{{ cbhealthagent_user_group }}"
