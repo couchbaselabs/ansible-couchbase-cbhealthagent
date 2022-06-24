@@ -11,7 +11,6 @@ Deploy [cbhealthagent](https://docs.couchbase.com/cmos/current/index.html) Couch
 
 -   Ansible >= 2.10 (It might work on previous versions, but we cannot guarantee it)
 -   jmespath on deployer machine. If you are using Ansible from a Python virtualenv, install _jmespath_ to the same virtualenv via pip.
--   gnu-tar on Mac deployer host (`brew install gnu-tar`)
 
 
 ## Role Variables
