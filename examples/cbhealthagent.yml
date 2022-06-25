@@ -5,6 +5,7 @@
     cbhealthagent_configure_firewalld: false
     couchbase_username: Administrator
     couchbase_password: password
+    cbhealthagent_couchbase_install_path: /opt/couchbase
   pre_tasks:
     # pre_tasks happen before roles are executed / applied
     # if the cbhealthagent_configure_firewalld is true, make sure the service is installed before proceeding
