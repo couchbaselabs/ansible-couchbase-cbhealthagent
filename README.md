@@ -1,4 +1,4 @@
-# Couchbase Server Ansible Role
+# cbhealthagent Ansible Role
 
 [![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
