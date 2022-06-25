@@ -26,13 +26,3 @@
   become: true
   tags:
     - cbhealthagent_configure
-
-- name: Ensure cbhealthagent is enabled on boot
-  become: true
-  ansible.builtin.systemd:
-    daemon_reload: true
-    name: cbhealthagent
-    enabled: true
-    state: started
-  tags:
-    - cbhealthagent_run
