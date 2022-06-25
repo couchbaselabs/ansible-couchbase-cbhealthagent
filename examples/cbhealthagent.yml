@@ -13,7 +13,7 @@
       package:
         name: firewalld
         state: present
-      when: cbhealthagent_configure_firewalld | default(false) == true
+      when: cbhealthagent_configure_firewalld | default(false)
       tags:
         - cbhealthagent_firewalld
   roles:
@@ -25,7 +25,7 @@
       service:
         name: firewalld
         state: started
-      when: cbhealthagent_configure_firewalld | default(false) == true
+      when: cbhealthagent_configure_firewalld | default(false)
       tags:
         - cbhealthagent_firewalld
     - name: Add port {{ cbhealthagent_bind_port }} (cmos-exporter)
@@ -33,13 +33,13 @@
         port: "{{ cbhealthagent_bind_port }}/tcp"
         permanent: true
         state: enabled
-      when: cbhealthagent_configure_firewalld | default(false) == true
+      when: cbhealthagent_configure_firewalld | default(false)
       tags:
         - cbhealthagent_firewalld
     - name: Make sure firewalld is restarted
       service:
         name: firewalld
         state: restarted
-      when: cbhealthagent_configure_firewalld | default(false) == true
+      when: cbhealthagent_configure_firewalld | default(false)
       tags:
         - cbhealthagent_firewalld

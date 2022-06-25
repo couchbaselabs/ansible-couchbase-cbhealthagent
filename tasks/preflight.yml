@@ -70,7 +70,7 @@
     - name: Fail when the cbhealthagent_local_binary_path does not exist
       ansible.builtin.fail:
         msg: "The cbhealthagent_local_binary_path ({{ cbhealthagent_local_binary_path }}) was specified but does not exist"
-      when: __cbhealthagent_local_binary_check.stat.exists == false
+      when: not __cbhealthagent_local_binary_check.stat.exists
   when: cbhealthagent_local_binary_path is defined and cbhealthagent_local_binary_path | length > 0
 
 - name: Assert usage of systemd as an init system
