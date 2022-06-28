@@ -17,12 +17,13 @@
     - cbhealthagent_check_interval
     - cbhealthagent_log_analyzer_janitor_interval
     - cbhealthagent_log_analyzer_alert_duration
-    - cbhealthagent_features_auto
-    - cbhealthagent_features_enable
-    - cbhealthagent_features_disable
     - couchbase_username
     - couchbase_password
     - cbhealthagent_http_port
+    - cbhealthagent_features_health_agent_enabled
+    - cbhealthagent_features_log_analyzer_enabled
+    - cbhealthagent_features_fluent_bit_enabled
+    - cbhealthagent_features_prometheus_exporter_enabled
 
 - name: Fail when variables do not have a length
   ansible.builtin.fail:
@@ -42,10 +43,13 @@
     - cbhealthagent_check_interval
     - cbhealthagent_log_analyzer_janitor_interval
     - cbhealthagent_log_analyzer_alert_duration
-    - cbhealthagent_features_auto
     - couchbase_username
     - couchbase_password
     - cbhealthagent_http_port
+    - cbhealthagent_features_health_agent_enabled
+    - cbhealthagent_features_log_analyzer_enabled
+    - cbhealthagent_features_fluent_bit_enabled
+    - cbhealthagent_features_prometheus_exporter_enabled
 
 - name: Fail when cbhealthagent_http_port is not a number
   ansible.builtin.fail:

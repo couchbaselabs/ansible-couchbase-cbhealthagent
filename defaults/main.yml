@@ -26,6 +26,11 @@ cbhealthagent_log_analyzer_janitor_interval: 10m    # How often to clean up stal
 cbhealthagent_log_analyzer_alert_duration: 1h    # How long will log alerts fire before they are cleaned up, if no matching message is seen in the meantime.
 
 # features
+cbhealthagent_features_health_agent_enabled: true
+cbhealthagent_features_log_analyzer_enabled: true
+cbhealthagent_features_fluent_bit_enabled: false
+cbhealthagent_features_prometheus_exporter_enabled: false
+
 cbhealthagent_features_enable: "health-agent,log-analyzer"    # Features to enable. Overrides features.auto
 cbhealthagent_features_disable: "fluent-bit,prometheus-exporter"    # Features to disable. Overrides features.auto
 

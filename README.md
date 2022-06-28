@@ -75,8 +75,10 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `cbhealthagent_check_interval` | `10m` | How often to refresh health check data. |
 | `cbhealthagent_log_analyzer_janitor_interval` | `10m` | How often to clean up stale log alerts. |
 | `cbhealthagent_log_analyzer_alert_duration` | `1h` | How long will log alerts fire before they are cleaned up, if no matching message is seen in the meantime. |
-| `cbhealthagent_features_enable` | `"health-agent,log-analyzer"` | Features to enable. Overrides `features.auto` |
-| `cbhealthagent_features_disable` | `"fluent-bit,prometheus-exporter"` | Features to disable. Overrides `features.auto` |
+| `cbhealthagent_features_health_agent_enabled` | `true` | Whether or not to enable the health agent |
+| `cbhealthagent_features_log_analyzer_enabled` | `true` | Whether or not to enable the log analyzer |
+| `cbhealthagent_features_fluent_bit_enabled` | `false` | Whether or not to enable fluent bit |
+| `cbhealthagent_features_prometheus_exporter_enabled` | `false`  | Whether or not to enable the prometheus exporter |
 | `couchbase_username` | `Administrator` | The Couchbase user to use. |
 | `couchbase_password` | `password` | The Couchbase password to use. |
 | `cbhealthagent_http_port` | `9082` | Port that exposes the agent REST API |

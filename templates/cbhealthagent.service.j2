@@ -20,12 +20,26 @@ ExecStart={{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }} \
   --couchbase.install-path "$COUCHBASE_INSTALL_PATH" \
   --couchbase.username "$COUCHBASE_USER" \
   --couchbase.password "$COUCHBASE_PASSWORD" \
-  {% for enable in (cbhealthagent_features_enable | split(',')) %}
-  --features.enable "{{ enable }}" \
-  {% endfor %}
-  {% for disable in (cbhealthagent_features_disable | split(',')) %}
-  --features.disable "{{ disable }}" \
-  {% endfor %}
+  {% if cbhealthagent_features_health_agent_enabled | default(true) %}
+  --features.enable "health-agent" \
+  {% else %}
+  --features.disable "health-agent" \
+  {% endif %}
+  {% if cbhealthagent_features_log_analyzer_enabled | default(true) %}
+  --features.enable "log-analyzer" \
+  {% else %}
+  --features.disable "log-analyzer" \
+  {% endif %}
+  {% if cbhealthagent_features_fluent_bit_enabled | default(false) %}
+  --features.enable "fluent-bit" \
+  {% else %}
+  --features.disable "fluent-bit" \
+  {% endif %}
+  {% if cbhealthagent_features_prometheus_exporter_enabled | default(false) %}
+  --features.enable "prometheus-exporter" \
+  {% else %}
+  --features.disable "prometheus-exporter" \
+  {% endif %}
   --health-agent.check-interval "$CBHEALTHAGENT_CHECK_INTERVAL" \
   --log-analyzer.janitor-interval "$CBHEALTHAGENT_LOG_ANALYZER_JANITOR_INTERVAL" \
   --log-analyzer.alert-duration "$CBHEALTHAGENT_LOG_ANALYZER_ALERT_DURATION"
