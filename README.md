@@ -1,7 +1,22 @@
 # cbhealthagent Ansible Role
 
-[![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![GitHub](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-cbhealthagent)](https://www.apache.org/licenses/LICENSE-2.0)
 
+<!--
+[![Ansible Role](https://img.shields.io/ansible/role/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
+
+[![Ansible Quality Score](https://img.shields.io/ansible/quality/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
+
+[![Ansible Role](https://img.shields.io/ansible/role/d/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
+-->
+
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/couchbaselabs/ansible-couchbase-cbhealthagent/Lint?style=for-the-badge)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+
+![GitHub contributors](https://img.shields.io/github/contributors/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
 
 ## Description
 
@@ -19,25 +34,28 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 
 | **Name**           | **Default Value** | **Description**                    |
 | :-------------- | :------------- | :-----------------------------------|
-| cbhealthagent_version | `0.3.0` |  |
-| cbhealthagent_user | `couchbase` |  |
-| cbhealthagent_user_group | `couchbase` |  |
-| cbhealthagent_install_dir | `/opt/cbhealthagent/bin` |  |
-| cbhealthagent_binary | `cbhealthagent` |  |
-| cbhealthagent_conf_dir | `/etc/cbhealthagent` |  |
-| cbhealthagent_env_file | `service.env` |  |
-| cbhealthagent_local_tmp_dir |  `/tmp/cbhealthagent` | path to where the binary will be downloaded to on the controller |
-| cbhealthagent_local_binary_path | `""` | Full path to the local binary if already downloaded on the controller.  This should only be set, if ansible is not downloading the binary and you have
-| cbhealthagent_log_level | `debug` | Level to log at.  Can be: debug, info, warn, error |
-| cbhealthagent_couchbase_install_path | `/opt/couchbase` |  |
-| cbhealthagent_check_interval | `10m` | How often to refresh health check data. |
-| cbhealthagent_log_analyzer_janitor_interval | `10m` | How often to clean up stale log alerts. |
-| cbhealthagent_log_analyzer_alert_duration | `1h` | How long will log alerts fire before they are cleaned up, if no matching message is seen in the meantime. |
-| cbhealthagent_features_enable | `"health-agent,log-analyzer"` | Features to enable. Overrides `features.auto` |
-| cbhealthagent_features_disable | `"fluent-bit,prometheus-exporter"` | Features to disable. Overrides `features.auto` |
-| couchbase_username | `Administrator` | The Couchbase user to use. |
-| couchbase_password | `password` | The Couchbase password to use. |
-| cbhealthagent_http_port | `9082` | Port that exposes the agent REST API |
+| `cbhealthagent_version` | `0.3.0` | The version of cbhealthagent to install |
+| `cbhealthagent_user` | `cbhealthagent` | The name of the cbhealthagent user on the OS. |
+| `cbhealthagent_user_group` | `cbhealthagent` | The name of the cbhealthagent user group on the OS. |
+| `cbhealthagent_user_shell` | `/usr/sbin/nologin` | By default `/usr/sbin/nologin` is used to prevent the user from logging in, if you're using an existing user account this should be `/bin/bash` |
+`cbhealthagent_user_createhome` | `false` | Whether or not to create the home directory for the user |
+| `cbhealthagent_couchbase_user_group` | `couchbase` | The user group that Couchbase is using. |
+| `cbhealthagent_install_dir` | `/opt/cbhealthagent/bin` | The directory for the binary to be placed in |
+| `cbhealthagent_binary` | `cbhealthagent` | The name of the binary to use |
+| `cbhealthagent_conf_dir` | `/etc/cbhealthagent` | The configuration directory  |
+| `cbhealthagent_env_file` | `service.env` | The name of the environment file the process will load when it starts |
+| `cbhealthagent_local_tmp_dir` |  `/tmp/cbhealthagent` | path to where the binary will be downloaded to on the controller |
+| `cbhealthagent_local_binary_path` | `""` | Full path to the local binary if already downloaded on the controller.  This should only be set, if ansible is not downloading the binary and you have
+| `cbhealthagent_log_level` | `info` | Level to log at.  Can be: debug, info, warn, error |
+| `cbhealthagent_couchbase_install_path` | `/opt/couchbase` | The path to where Couchbase Server was installed |
+| `cbhealthagent_check_interval` | `10m` | How often to refresh health check data. |
+| `cbhealthagent_log_analyzer_janitor_interval` | `10m` | How often to clean up stale log alerts. |
+| `cbhealthagent_log_analyzer_alert_duration` | `1h` | How long will log alerts fire before they are cleaned up, if no matching message is seen in the meantime. |
+| `cbhealthagent_features_enable` | `"health-agent,log-analyzer"` | Features to enable. Overrides `features.auto` |
+| `cbhealthagent_features_disable` | `"fluent-bit,prometheus-exporter"` | Features to disable. Overrides `features.auto` |
+| `couchbase_username` | `Administrator` | The Couchbase user to use. |
+| `couchbase_password` | `password` | The Couchbase password to use. |
+| `cbhealthagent_http_port` | `9082` | Port that exposes the agent REST API |
 
 ### Features
 
@@ -45,10 +63,10 @@ Currently the following features are available:
 
 | **Name**      | **Description**                    |
 | :------------ | :-----------------------------------|
-| health-agent | Performs health checks against the local node |
-| log-analyzer | Parses log messages sent from FluentBit |
-| fluent-bit | The rpm for `cbhealthagent` will install fluent-bit and the necessary configuration files.  However, it is instead preferred to install FluentBit separately using the [`couchbaselabs.couchbase_fluent_bit`](https://github.com/couchbaselabs/ansible-couchbase-fluent-bit) role which has additional configuration for slow query logging as well as support for sending log messages to `cbhealthagent` |
-| prometheus-exporter | `cbhealthagent` can optionally start a prometheus exporters.  However, it is preferred to install the exporter separately using the [`couchbaselabs.couchbase_exporter`](https://github.com/couchbaselabs/ansible-couchbase-fluent-bit) role, which has additional configuration options.
+| `health-agent` | Performs health checks against the local node |
+| `log-analyzer` | Parses log messages sent from FluentBit |
+| `fluent-bit` | The rpm for `cbhealthagent` will install fluent-bit and the necessary configuration files.  However, it is instead preferred to install FluentBit separately using the [`couchbaselabs.couchbase_fluent_bit`](https://github.com/couchbaselabs/ansible-couchbase-fluent-bit) role which has additional configuration for slow query logging as well as support for sending log messages to `cbhealthagent` |
+| `prometheus-exporter` | `cbhealthagent` can optionally start a prometheus exporters.  However, it is preferred to install the exporter separately using the [`couchbaselabs.couchbase_exporter`](https://github.com/couchbaselabs/ansible-couchbase-fluent-bit) role, which has additional configuration options.
 
 ## Installation
 
