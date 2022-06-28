@@ -1,5 +1,6 @@
 # cbhealthagent Ansible Role
 
+<p align="center">
 [![GitHub](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-cbhealthagent)](https://www.apache.org/licenses/LICENSE-2.0)
 
 <!--
@@ -17,6 +18,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
 
 ![GitHub contributors](https://img.shields.io/github/contributors/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+</p>
 
 ## Description
 
