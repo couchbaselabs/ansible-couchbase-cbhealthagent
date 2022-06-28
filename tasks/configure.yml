@@ -7,11 +7,23 @@
     group: root
     state: link
 
-- name: Ensure cbhealthagent is stopped
-  ansible.builtin.systemd:
-    name: cbhealthagent
-    enabled: true
-    state: stopped
+- name: Stop cbhealthagent if installed
+  block:
+    # this will fail the verify first time of installation
+    - name: Ensure cbhealthagent is stopped
+      ansible.builtin.systemd:
+        name: cbhealthagent
+        enabled: true
+        state: stopped
+  rescue:
+    # make sure that the service isn't actually installed
+    - name: Get the list of services
+      service_facts:
+
+    - name: Verify that cbhealthagent is not installed
+      assert:
+        that:
+          - _cbhealthagent_systemd_unit not in services
 
 - name: Create cbhealthagent Service
   ansible.builtin.template:
