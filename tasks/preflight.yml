@@ -83,8 +83,6 @@
   changed_when: false
   check_mode: false
   register: __systemd_version
-  tags:
-    - skip_ansible_lint
 
 - name: Set systemd version fact
   ansible.builtin.set_fact:
@@ -113,15 +111,11 @@
     - name: cbhealthagent Installed Version
       ansible.builtin.debug:
         var: cbhealthagent_installed_version
-  tags:
-    - cbhealthagent_install
   when: __cbhealthagent_is_installed.stat.exists
 
 - name: cbhealthagent Version
   ansible.builtin.debug:
     var: cbhealthagent_version
-  tags:
-    - cbhealthagent_install
 
 - name: cbhealthagent Download URL
   ansible.builtin.debug:
@@ -132,12 +126,7 @@
 - name: Set whether or not to do the install
   ansible.builtin.set_fact:
     __cbhealthagent_do_install: "{{  not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<') }}"
-  tags:
-    - cbhealthagent_install
-    - cbhealthagent_configure
 
 - name: Do Install
   ansible.builtin.debug:
     var: __cbhealthagent_do_install
-  tags:
-    - cbhealthagent_install
