@@ -14,7 +14,7 @@
       - "{{ cbhealthagent_couchbase_user_group }}"
     system: true
     shell: "{{ cbhealthagent_user_shell }}"
-    createhome: "{{ cbhealthagent_user_createhome }}"
+    createhome: "{{ cbhealthagent_user_createhome"
 
 - name: Install Directory
   block:
@@ -70,7 +70,7 @@
 
 - name: Propagate cbhealthagent binary
   ansible.builtin.copy:
-    src: "__cbhealthagent_local_binary_path"
+    src: "{{ __cbhealthagent_local_binary_path }}"
     dest: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
     mode: 0755
     owner: root
