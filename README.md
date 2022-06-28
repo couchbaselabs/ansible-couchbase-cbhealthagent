@@ -44,7 +44,7 @@ Deploy [cbhealthagent](https://docs.couchbase.com/cmos/current/index.html) Couch
 
 ## Disclaimer
 
-This ansible role is provided as is and is not officially supported by Couchbase, it is maintained through community contributions.  Any issues should be reported as an [Issue](https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/issues) on Github.
+This ansible role and the sub-components configured are not officially supported under Couchbase Enterprise Subscriptions. Please contact Couchbase on any details for your particular environment. Contents here and sub-components are provided as is, it is maintained through community contributions.  Any issues should be reported as an [Issue](https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/issues) on Github.  Pull Requests are welcomed!
 
 ## Requirements
 
