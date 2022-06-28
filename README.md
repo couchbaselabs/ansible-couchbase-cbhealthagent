@@ -95,12 +95,18 @@ Currently the following features are available:
 ## Installation
 
 You can install this role with the `ansible-galaxy` command, and can run it
-directly from the git repository.
-
-You should install it like this:
+directly from the git repository.:
 
 ```
-ansible-galaxy install git+https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent.git
+ansible-galaxy install git+https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent.git couchbaselabs.cbhealthagent
+```
+
+It can also be added to a `requirements.yml` file
+
+```yaml
+roles:
+- name: couchbaselabs.cbmultimanager
+  src: https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent.git
 ```
 
 ## Example
