@@ -1,23 +1,41 @@
 # cbhealthagent Ansible Role
 
 <p align="center">
-[![GitHub](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-cbhealthagent)](https://www.apache.org/licenses/LICENSE-2.0)
 
-<!--
-[![Ansible Role](https://img.shields.io/ansible/role/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
+  <a href="https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/graphs/contributors" alt="Contributors">
+    <img src="https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-cbhealthagent" />
+  </a>
 
-[![Ansible Quality Score](https://img.shields.io/ansible/quality/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
+  <!--
+  <a href="https://galaxy.ansible.com/couchbaselabs/cbhealthagent" alt="Ansible Role">
+    <img src="https://img.shields.io/ansible/role/{roleId}" />
+  </a>
 
-[![Ansible Role](https://img.shields.io/ansible/role/d/{roleId})](https://galaxy.ansible.com/couchbaselabs/cbhealthagent)
--->
+  <a href="https://galaxy.ansible.com/couchbaselabs/cbhealthagent" alt="Ansible Quality Score">
+    <img src="https://img.shields.io/ansible/quality/{roleId}" />
+  </a>
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+  <a href="https://galaxy.ansible.com/couchbaselabs/cbhealthagent" alt="Downloads">
+    <img src="https://img.shields.io/ansible/role/d/{roleId}" />
+  </a>
+  -->
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/couchbaselabs/ansible-couchbase-cbhealthagent/Lint?style=for-the-badge)
+  <a href="https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/releases" alt="GitHub tag (latest by date)">
+    <img src="https://img.shields.io/github/v/tag/couchbaselabs/ansible-couchbase-cbhealthagent" />
+  </a>
 
-![GitHub last commit](https://img.shields.io/github/last-commit/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+  <a href="https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/actions" alt="GitHub Workflow Status">
+    <img src="https://img.shields.io/github/workflow/status/couchbaselabs/ansible-couchbase-cbhealthagent/Lint" />
+  </a>
 
-![GitHub contributors](https://img.shields.io/github/contributors/couchbaselabs/ansible-couchbase-cbhealthagent?style=for-the-badge)
+  <a href="https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/commits/main" alt="GitHub last commit">
+    <img src="https://img.shields.io/github/last-commit/couchbaselabs/ansible-couchbase-cbhealthagent" />
+  </a>
+
+  <a href="https://github.com/couchbaselabs/ansible-couchbase-exporter/graphs/contributors" alt="GitHub last commit">
+    <img src="https://img.shields.io/github/contributors/couchbaselabs/ansible-couchbase-cbhealthagent" />
+  </a>
+
 </p>
 
 ## Description
