@@ -11,9 +11,10 @@
     comment: "cbhealthagent Account"
     groups:
       - "{{ cbhealthagent_user_group }}"
+      - "{{ cbhealthagent_couchbase_user_group }}"
     system: true
-    shell: "/usr/sbin/nologin"
-    createhome: false
+    shell: "{{ cbhealthagent_user_shell }}"
+    createhome: "{{ cbhealthagent_user_createhome }}"
 
 - name: Install Directory
   block:

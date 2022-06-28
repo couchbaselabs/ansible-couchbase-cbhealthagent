@@ -1,8 +1,11 @@
 ---
 # service variables
 cbhealthagent_version: 0.3.0
-cbhealthagent_user: couchbase
-cbhealthagent_user_group: couchbase
+cbhealthagent_user: cbhealthagent
+cbhealthagent_user_group: cbhealthagent
+cbhealthagent_user_shell: /usr/sbin/nologin
+cbhealthagent_user_createhome: false
+cbhealthagent_couchbase_user_group: couchbase
 cbhealthagent_install_dir: /opt/cbhealthagent/bin
 cbhealthagent_binary: cbhealthagent
 cbhealthagent_conf_dir: /etc/cbhealthagent
