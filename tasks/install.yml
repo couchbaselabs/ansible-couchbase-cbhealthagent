@@ -1,9 +1,10 @@
 ---
 - name: Add user group "{{ cbhealthagent_user_group }}"
   ansible.builtin.group:
-    name: "{{ cbhealthagent_user }}"
+    name: "{{ cbhealthagent_user_group }}"
     system: true
     state: present
+  when: cbhealthagent_user_group != 'root'
 
 - name: Add user "{{ cbhealthagent_user }}"
   ansible.builtin.user:
@@ -15,6 +16,7 @@
     system: true
     shell: "{{ cbhealthagent_user_shell }}"
     createhome: "{{ cbhealthagent_user_createhome }}"
+  when: cbhealthagent_user != 'root'
 
 - name: Install Directory
   block:

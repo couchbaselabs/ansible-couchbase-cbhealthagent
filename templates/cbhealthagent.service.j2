@@ -9,8 +9,10 @@ After=network.target
 [Service]
 Type=simple
 
-User={{ cbhealthagent_user | default('couchbase') }}
-Group={{ cbhealthagent_user_group | default('couchbase') }}
+{% if cbhealthagent_user != 'root' %}
+User={{ cbhealthagent_user | default('cbhealthagent') }}
+Group={{ cbhealthagent_user_group | default('cbhealthagent') }}
+{% endif %}
 WorkingDirectory={{ cbhealthagent_conf_dir }}
 EnvironmentFile=-{{ cbhealthagent_conf_dir }}/{{ cbhealthagent_env_file}}
 
