@@ -1,4 +1,12 @@
 ---
+- name: Install optional cbhealthagent dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - redhat-lsb-core
+  when: cbhealthagent_install_dependencies
+
 - name: Add user group "{{ cbhealthagent_user_group }}"
   ansible.builtin.group:
     name: "{{ cbhealthagent_user_group }}"

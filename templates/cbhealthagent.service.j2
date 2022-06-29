@@ -2,7 +2,7 @@
 
 [Unit]
 Description=cbhealthagent
-Documentation=N/A
+Documentation=https://docs.couchbase.com/cmos/current/index.html
 Requires=network.target
 After=network.target
 
@@ -10,8 +10,8 @@ After=network.target
 Type=simple
 
 {% if cbhealthagent_user != 'root' %}
-User={{ cbhealthagent_user | default('cbhealthagent') }}
-Group={{ cbhealthagent_user_group | default('cbhealthagent') }}
+User={{ cbhealthagent_user }}
+Group={{ cbhealthagent_user_group }}
 {% endif %}
 WorkingDirectory={{ cbhealthagent_conf_dir }}
 EnvironmentFile=-{{ cbhealthagent_conf_dir }}/{{ cbhealthagent_env_file}}

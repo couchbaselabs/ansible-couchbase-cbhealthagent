@@ -59,7 +59,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | **Name**           | **Default Value** | **Description**                    |
 | :-------------- | :------------- | :-----------------------------------|
 | `cbhealthagent_version` | `0.3.0` | The version of cbhealthagent to install |
-| `cbhealthagent_user` | `cbhealthagent` | The name of the cbhealthagent user on the OS. |
+| `cbhealthagent_user` | `root` | Due to some of the checks that are performed, it is preferred to run as root. |
 | `cbhealthagent_user_group` | `cbhealthagent` | The name of the cbhealthagent user group on the OS. |
 | `cbhealthagent_user_shell` | `/usr/sbin/nologin` | By default `/usr/sbin/nologin` is used to prevent the user from logging in, if you're using an existing user account this should be `/bin/bash` |
 `cbhealthagent_user_createhome` | `false` | Whether or not to create the home directory for the user |
