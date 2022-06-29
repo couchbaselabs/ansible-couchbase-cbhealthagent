@@ -99,8 +99,9 @@ Currently the following features are available:
 You can install this role with the `ansible-galaxy` command, and can run it
 directly from the git repository.:
 
-```
-ansible-galaxy role install git+https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent.git,,couchbaselabs.cbhealthagent
+```bash
+ansible-galaxy role install \
+  git+https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent.git,,couchbaselabs.cbhealthagent
 ```
 
 It can also be added to a `requirements.yml` file
