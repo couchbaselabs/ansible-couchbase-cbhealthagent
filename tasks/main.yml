@@ -1,28 +1,26 @@
 ---
-# Output any variables that start with couchbase_*
-- name: Show all cbhealthagent variables
-  debug:
-    var: vars[item]
-  with_items: "{{ lookup('varnames', 'cbhealthagent_.+').split(',') }}"
-  tags:
-    - cbhealthagent_install
-    - cbhealthagent_configure
-    - cbhealthagent_run
+- include_tasks:
+    file: preflight.yml
+    apply:
+      become: true
+      tags:
+        - cbhealthagent_install
+        - cbhealthagent_configure
+        - cbhealthagent_run
 
-- include: preflight.yml
-  become: true
-  tags:
-    - cbhealthagent_install
-    - cbhealthagent_configure
-    - cbhealthagent_run
-
-- include: install.yml
-  become: true
+- include_tasks:
+    file: install.yml
+    apply:
+      become: true
+      tags:
+        - cbhealthagent_install
   when: __cbhealthagent_do_install
-  tags:
-    - cbhealthagent_install
 
-- include: configure.yml
-  become: true
+- include_tasks:
+    file: configure.yml
+    apply:
+      become: true
+      tags:
+        - cbhealthagent_configure
   tags:
     - cbhealthagent_configure

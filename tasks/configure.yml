@@ -21,7 +21,7 @@
       service_facts:
 
     - name: Verify that cbhealthagent is not installed
-      assert:
+      ansible.builtin.assert:
         that:
           - _cbhealthagent_systemd_unit not in services
 
@@ -50,7 +50,7 @@
     state: started
 
 - name: Wait for cbhealthagent to come up
-  uri:
+  ansible.builtin.uri:
     url: "http://localhost:{{ cbhealthagent_http_port }}/agent/api/v1/ping"
     method: GET
   register: _result

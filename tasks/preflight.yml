@@ -2,7 +2,7 @@
 - name: Fail when variables are not defined
   ansible.builtin.fail:
     msg: "The {{ item }} property must be set"
-  when: ( item is not defined )
+  when: ( vars[item] is not defined )
   with_items:
     - cbhealthagent_version
     - cbhealthagent_user
@@ -28,7 +28,7 @@
 - name: Fail when variables do not have a length
   ansible.builtin.fail:
     msg: "The {{ item }} property must be valued"
-  when: ( item | string | length == 0 )
+  when: ( vars[item] | string | length == 0 )
   with_items:
     - cbhealthagent_version
     - cbhealthagent_user
@@ -60,6 +60,18 @@
   ansible.builtin.fail:
     msg: "The cbhealthagent_log_level can only be: debug, info, warn, error"
   when: ( cbhealthagent_log_level not in ['debug','info','warn','error'] )
+
+- name: Fail when out enable flags are not a boolean
+  ansible.builtin.fail:
+    msg: "The {{ item }} property must be a boolean true or false "
+  when: ( vars[item] | bool | string | lower ) not in ['true', 'false']
+  with_items:
+    - cbhealthagent_features_health_agent_enabled
+    - cbhealthagent_features_log_analyzer_enabled
+    - cbhealthagent_features_fluent_bit_enabled
+    - cbhealthagent_features_prometheus_exporter_enabled
+    - cbhealthagent_install_dependencies
+    - cbhealthagent_user_createhome
 
 - name: Fail when cbhealthagent_local_binary_path is defined but the file doesn't exist
   block:

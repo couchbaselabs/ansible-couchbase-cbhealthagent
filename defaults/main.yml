@@ -32,9 +32,6 @@ cbhealthagent_features_log_analyzer_enabled: true
 cbhealthagent_features_fluent_bit_enabled: false
 cbhealthagent_features_prometheus_exporter_enabled: false
 
-cbhealthagent_features_enable: "health-agent,log-analyzer"    # Features to enable. Overrides features.auto
-cbhealthagent_features_disable: "fluent-bit,prometheus-exporter"    # Features to disable. Overrides features.auto
-
 # features are explicitly enabled / disabled, it is recommended to use the roles:
 # - https://github.com/couchbaselabs/ansible-couchbase-exporter
 # - https://github.com/couchbaselabs/ansible-couchbase-fluent-bit
