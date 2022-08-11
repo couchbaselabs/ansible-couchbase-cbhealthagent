@@ -69,7 +69,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `cbhealthagent_conf_dir` | `/etc/cbhealthagent` | The configuration directory  |
 | `cbhealthagent_env_file` | `service.env` | The name of the environment file the process will load when it starts |
 | `cbhealthagent_local_tmp_dir` |  `/tmp/cbhealthagent` | path to where the binary will be downloaded to on the controller |
-| `cbhealthagent_local_binary_path` | `""` | Full path to the local binary if already downloaded on the controller.  This should only be set, if ansible is not downloading the binary and you have
+| `cbhealthagent_local_binary_path` | `""` | Full path to the local binary if already downloaded on the controller.  This should only be set, if ansible is not downloading the binary and you have |
 | `cbhealthagent_log_level` | `info` | Level to log at.  Can be: debug, info, warn, error |
 | `cbhealthagent_couchbase_install_path` | `/opt/couchbase` | The path to where Couchbase Server was installed |
 | `cbhealthagent_check_interval` | `10m` | How often to refresh health check data. |

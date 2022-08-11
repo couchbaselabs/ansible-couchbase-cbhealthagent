@@ -14,7 +14,7 @@
       become: true
       tags:
         - cbhealthagent_install
-  when: __cbhealthagent_do_install
+  when: __cbhealthagent_do_install | bool
 
 - include_tasks:
     file: configure.yml
