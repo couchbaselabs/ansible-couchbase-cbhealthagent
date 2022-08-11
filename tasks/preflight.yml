@@ -104,6 +104,18 @@
   ansible.builtin.set_fact:
     cbhealthagent_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
 
+- name: Ensure Couchbase Server is Running
+  ansible.builtin.uri:
+    url: "https://localhost:18091/pools/default"
+    method: GET
+    url_username: "{{ couchbase_username }}"
+    url_password: "{{ couchbase_password }}"
+    validate_certs: false
+  register: _couchbase_result
+  until: _couchbase_result.status == 200
+  retries: 10
+  delay: 1
+
 - name: Check if cbhealthagent is installed
   ansible.builtin.stat:
     path: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"

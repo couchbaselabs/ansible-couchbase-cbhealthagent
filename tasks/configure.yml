@@ -42,7 +42,6 @@
     mode: 0664
 
 - name: Ensure cbhealthagent is enabled on boot
-  become: true
   ansible.builtin.systemd:
     daemon_reload: true
     name: cbhealthagent
