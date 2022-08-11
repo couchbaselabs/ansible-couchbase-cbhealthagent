@@ -142,7 +142,7 @@
 - name: Set whether or not to do the install
   ansible.builtin.set_fact:
     __cbhealthagent_do_install: >
-      {{  not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<') }}
+      {{ (not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<')) | bool }}
 
 - name: Do Install
   ansible.builtin.debug:
