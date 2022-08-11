@@ -94,7 +94,7 @@
     that: ansible_service_mgr == 'systemd'
     msg: "This role only works with systemd"
 
-- name: Get systemd version
+- name: Get systemd version    # noqa command-instead-of-module
   ansible.builtin.command: systemctl --version
   changed_when: false
   check_mode: false
@@ -141,7 +141,8 @@
 
 - name: Set whether or not to do the install
   ansible.builtin.set_fact:
-    __cbhealthagent_do_install: "{{  not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<') }}"
+    __cbhealthagent_do_install: >
+      {{  not __cbhealthagent_is_installed.stat.exists or cbhealthagent_installed_version is version_compare(cbhealthagent_version, '<') }}
 
 - name: Do Install
   ansible.builtin.debug:

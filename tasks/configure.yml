@@ -18,7 +18,7 @@
   rescue:
     # make sure that the service isn't actually installed
     - name: Get the list of services
-      service_facts:
+      ansible.builtin.service_facts:
 
     - name: Verify that cbhealthagent is not installed
       ansible.builtin.assert:
@@ -37,9 +37,9 @@
   ansible.builtin.template:
     src: EnvironmentFile.j2
     dest: "{{ cbhealthagent_conf_dir }}/{{ cbhealthagent_env_file }}"
-    owner: root
+    owner: "{{ cbhealthagent_user }}"
     group: "{{ cbhealthagent_user_group }}"
-    mode: 0640
+    mode: 0664
 
 - name: Ensure cbhealthagent is enabled on boot
   become: true

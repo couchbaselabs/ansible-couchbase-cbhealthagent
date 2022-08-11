@@ -14,17 +14,34 @@
     state: present
   when: cbhealthagent_user_group != 'root'
 
-- name: Add user "{{ cbhealthagent_user }}"
-  ansible.builtin.user:
-    name: "{{ cbhealthagent_user }}"
-    comment: "cbhealthagent Account"
-    groups:
-      - "{{ cbhealthagent_user_group }}"
-      - "{{ cbhealthagent_couchbase_user_group }}"
-    system: true
-    shell: "{{ cbhealthagent_user_shell }}"
-    createhome: "{{ cbhealthagent_user_createhome }}"
-  when: cbhealthagent_user != 'root'
+- name: cbhealthagent User Creation
+  block:
+    - name: Check if the "{{ cbhealthagent_user }}" user exists
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ cbhealthagent_user }}"
+        fail_key: false
+
+    - name: Set whether not the user exists
+      ansible.builtin.set_fact:
+        __cbhealthagent_user_exists: "{{ ansible_facts.getent_passwd[cbhealthagent_user] is not none }}"
+
+    - name: Add user "{{ cbhealthagent_user }}"
+      ansible.builtin.user:
+        name: "{{ cbhealthagent_user }}"
+        comment: "cbhealthagent Account"
+        groups:
+          - "{{ cbhealthagent_user_group }}"
+          - "{{ cbhealthagent_couchbase_user_group }}"
+        system: true
+        shell: "{{ cbhealthagent_user_shell }}"
+        createhome: "{{ cbhealthagent_user_createhome }}"
+      when: not __cbhealthagent_user_exists and cbhealthagent_user != 'root'
+
+    - name: cbhealthagent User Exists"
+      ansible.builtin.debug:
+        msg: "The user \"{{ cbhealthagent_user }}\" already exists and will not be modified, if modifying permissions please perform a separate task"
+      when: __cbhealthagent_user_exists
 
 - name: Install Directory
   block:
@@ -32,17 +49,17 @@
       ansible.builtin.file:
         path: "{{ cbhealthagent_install_dir }}"
         state: directory
-        owner: root
+        owner: "{{ cbhealthagent_user }}"
         group: "{{ cbhealthagent_user_group }}"
-        mode: 0770
+        mode: 0664
 
     - name: Create cbhealthagent Conf Directory
       ansible.builtin.file:
         path: "{{ cbhealthagent_conf_dir }}"
         state: directory
-        owner: root
+        owner: "{{ cbhealthagent_user }}"
         group: "{{ cbhealthagent_user_group }}"
-        mode: 0755
+        mode: 0664
 
 - name: Download cbhealthagent Binary to controller
   block:
@@ -51,6 +68,7 @@
       ansible.builtin.file:
         path: "{{ cbhealthagent_local_tmp_dir }}"
         state: directory
+        mode: 0664
       delegate_to: localhost
       check_mode: false
 
@@ -60,6 +78,7 @@
         url: "{{ _cbhealthagent_download_url }}"
         dest: "{{ cbhealthagent_local_tmp_dir }}/{{ cbhealthagent_binary }}"
         validate_certs: false
+        mode: 0664
       register: _download_binary
       until: _download_binary is succeeded
       retries: 5
@@ -82,6 +101,6 @@
   ansible.builtin.copy:
     src: "{{ __cbhealthagent_local_binary_path }}"
     dest: "{{ cbhealthagent_install_dir }}/{{ cbhealthagent_binary }}"
-    mode: 0755
-    owner: root
+    mode: 0775
+    owner: "{{ cbhealthagent_user }}"
     group: "{{ cbhealthagent_user_group }}"
