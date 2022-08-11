@@ -7,12 +7,29 @@
     - redhat-lsb-core
   when: cbhealthagent_install_dependencies
 
-- name: Add user group "{{ cbhealthagent_user_group }}"
-  ansible.builtin.group:
-    name: "{{ cbhealthagent_user_group }}"
-    system: true
-    state: present
-  when: cbhealthagent_user_group != 'root'
+- name: cbhealthagent Group Creation
+  block:
+    - name: Check if the "{{ cbhealthagent_user_group }}" group exists
+      ansible.builtin.getent:
+        database: group
+        key: "{{ cbhealthagent_user_group }}"
+        fail_key: false
+
+    - name: Set whether not the user group exists
+      ansible.builtin.set_fact:
+        __cbhealthagent_user_group_exists: "{{ ansible_facts.getent_group[cbhealthagent_user_group] is not none }}"
+
+    - name: Add user group "{{ cbhealthagent_user_group }}"
+      ansible.builtin.group:
+        name: "{{ cbhealthagent_user_group }}"
+        system: true
+        state: present
+      when: not __cbhealthagent_user_group_exists and cbhealthagent_user_group != 'root'
+
+    - name: cbhealthagent Group Exists
+      ansible.builtin.debug:
+        msg: "The user group \"{{ cbhealthagent_user_group }}\" already exists and will not be modified, if modifying permissions please perform a separate task"
+      when: __cbhealthagent_user_group_exists
 
 - name: cbhealthagent User Creation
   block:
