@@ -53,8 +53,6 @@ ProtectHome=true
 
 SyslogIdentifier=cbhealthagent
 Restart=always
-RestartSec=1
-StartLimitInterval=0
 
 {% if cbhealthagent_systemd_version | int >= 232 %}
 ProtectSystem=strict
